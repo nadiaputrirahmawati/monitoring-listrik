@@ -9,6 +9,8 @@ const char* password = "12345678";
 // Mqtt Broker
 const char* mqtt_server   = "broker.rezweb.my.id";
 const int   mqtt_port     = 7964;
+const char* mqtt_user     = "#";
+const char* mqtt_password = "#";
 
 const char* topic_pub = "listrik/monitor";
 const char* topic_sub = "listrik/kontrolrelay";
