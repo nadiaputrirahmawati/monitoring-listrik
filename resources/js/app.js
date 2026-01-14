@@ -1,13 +1,10 @@
-// resources/js/app.js
 
-// Import semua modules
 import { initModal } from './modal.js';
-import { initMQTT } from './mqtt.js';
 import { initControls } from './controls.js';
 import { initNotifications } from './notifications.js';
 import { initCalculations, updateDisplayValues, updateProgressBars, checkLimitWarning, updateModeDisplay, updateRelayDisplay } from './calculations.js';
 
-// Global variables
+// default setting
 window.currentMode = 'otomatis';
 window.currentRelayStatus = false;
 window.currentSettings = {
@@ -16,7 +13,6 @@ window.currentSettings = {
     daya_terpasang: 1300
 };
 
-// Tarif PLN data
 window.TARIF_PLN = {
     '450': { tarif: 415, kategori: 'R1/TR 450 VA', daya: 450 },
     '900': { tarif: 1352, kategori: 'R1/TR 900 VA', daya: 900 },
@@ -28,31 +24,24 @@ window.TARIF_PLN = {
 
 // Initialize semua modules
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Initializing Dashboard...');
-    
-    // Initialize semua modules
     initModal();
     initMQTT();
     initControls();
     initNotifications();
     initCalculations();
-    
-    // Load initial data
+
     fetchRealtimeData();
     
     // Setup polling setiap 3 detik
     setInterval(fetchRealtimeData, 3000);
-    
-    console.log('✅ Dashboard initialized');
 });
 
-// Function untuk fetch data realtime
 async function fetchRealtimeData() {
     try {
         const response = await fetch('/dashboard/realtime');
         const data = await response.json();
         
-        // Update UI dengan data baru
+
         updateDashboard(data);
         
     } catch (error) {
@@ -61,7 +50,6 @@ async function fetchRealtimeData() {
     }
 }
 
-// Function untuk update UI dashboard
 function updateDashboard(data) {
     // Update semua elemen UI
     updateDisplayValues(data);

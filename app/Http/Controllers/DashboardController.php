@@ -11,13 +11,11 @@ use App\Services\MqttService;
 
 class DashboardController extends Controller
 {
-    // halaman utama
     public function index()
     {
         return view('dashboard');
     }
 
-    // API realtime (dipanggil JS)
     public function realtime()
     {
         $terakhir = DataListrik::latest()->first();
@@ -27,7 +25,6 @@ class DashboardController extends Controller
 
         $setting = PengaturanSistem::first();
 
-        // Jika belum ada setting, buat default
         if (!$setting) {
             $setting = PengaturanSistem::create([
                 'mode' => 'otomatis',
@@ -39,7 +36,7 @@ class DashboardController extends Controller
 
         $biayaHariIni = $hariIni * $setting->tarif_per_kwh;
 
-        // Cek notifikasi melebihi batas
+        // Mengecek notifikasi melebihi batas
         $notifikasi = null;
         if ($setting->mode === 'manual' && $hariIni >= $setting->batas_kwh) {
             $notifikasi = [
@@ -69,7 +66,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    // ubah mode otomatis / manual
     public function ubahMode(Request $request)
     {
         $request->validate([
@@ -83,7 +79,6 @@ class DashboardController extends Controller
         return response()->json(['status'=>'ok']);
     }
 
-    // Kontrol relay ON/OFF
     public function controlRelay(Request $request)
     {
         $request->validate([
@@ -92,7 +87,6 @@ class DashboardController extends Controller
 
         $setting = PengaturanSistem::first();
         
-        // Pastikan hanya bisa kontrol jika mode manual
         if ($setting->mode !== 'manual') {
             return response()->json([
                 'status' => 'error',
@@ -104,7 +98,6 @@ class DashboardController extends Controller
         $setting->status_perangkat = $status;
         $setting->save();
         
-        // Kirim perintah ke MQTT
         $mqttService = new MqttService();
         $success = $mqttService->publishRelayCommand($status);
         
@@ -115,7 +108,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    // update tarif & batas kwh
     public function updateSetting(Request $request)
     {
         $request->validate([

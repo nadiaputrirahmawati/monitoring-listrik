@@ -1,10 +1,9 @@
-// resources/js/modules/modal.js
+
 
 export function initModal() {
     const modal = document.getElementById('settings-modal');
     if (!modal) return;
     
-    // Modal events
     document.getElementById('btn-settings')?.addEventListener('click', openModal);
     document.getElementById('close-modal')?.addEventListener('click', closeModal);
     modal.addEventListener('click', function(e) {
@@ -17,19 +16,16 @@ export function initModal() {
         updateBatasKwh(batas);
     });
 
-    // Tarif options
     document.querySelectorAll('.tarif-option').forEach(option => {
         option.addEventListener('click', function() {
             const daya = this.dataset.daya;
             const tarif = parseFloat(this.dataset.tarif);
             
-            // Update selected UI
             document.querySelectorAll('.tarif-option').forEach(opt => {
                 opt.classList.remove('border-blue-500', 'bg-blue-500/10');
             });
             this.classList.add('border-blue-500', 'bg-blue-500/10');
             
-            // Update current settings
             window.currentSettings.tarif_per_kwh = tarif;
             window.currentSettings.daya_terpasang = parseInt(daya);
             document.getElementById('custom-tarif-input').value = tarif;
@@ -37,8 +33,6 @@ export function initModal() {
             showNotification(`Dipilih: ${daya}W - Rp ${formatNumber(tarif)}/kWh`, 'info', 3000);
         });
     });
-
-    // Save custom tarif
     document.getElementById('btn-save-custom')?.addEventListener('click', function() {
         const tarif = parseFloat(document.getElementById('custom-tarif-input').value);
         if (!isNaN(tarif) && tarif > 0) {
@@ -49,7 +43,6 @@ export function initModal() {
         }
     });
 
-    // Enter key events
     document.getElementById('batas-kwh-input')?.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             const batas = parseFloat(this.value);
@@ -73,11 +66,9 @@ function openModal() {
     modal.classList.add('flex');
     document.body.classList.add('overflow-hidden');
     
-    // Set current values
     document.getElementById('batas-kwh-input').value = window.currentSettings.batas_kwh;
     document.getElementById('custom-tarif-input').value = window.currentSettings.tarif_per_kwh;
     
-    // Highlight current tarif option
     document.querySelectorAll('.tarif-option').forEach(option => {
         option.classList.remove('border-blue-500', 'bg-blue-500/10');
         const daya = option.dataset.daya;

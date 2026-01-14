@@ -1,10 +1,8 @@
-// resources/js/modules/controls.js
 
-// Import function yang diperlukan
 import { updateModeDisplay, updateRelayDisplay } from './calculations.js';
 
 export function initControls() {
-    // Control events
+    // Control Button
     document.getElementById('btn-auto')?.addEventListener('click', () => changeMode('otomatis'));
     document.getElementById('btn-manual')?.addEventListener('click', () => changeMode('manual'));
     
@@ -61,7 +59,6 @@ async function controlRelay(action) {
         
         const result = await response.json();
         if (result.status === 'ok') {
-            // Update UI immediately
             if (action === 'on') {
                 updateRelayDisplay(1);
             } else {
@@ -81,6 +78,5 @@ async function controlRelay(action) {
     }
 }
 
-// Simpan function di window
 window.changeMode = changeMode;
 window.controlRelay = controlRelay;

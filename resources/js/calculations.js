@@ -1,8 +1,5 @@
-// resources/js/modules/calculations.js
 
-// Export function yang diperlukan
 export function initCalculations() {
-    // Fungsi-fungsi kalkulasi sudah tersedia
 }
 
 export function updateDisplayValues(data) {
@@ -59,7 +56,7 @@ export function updateDisplayValues(data) {
         currentTarif.textContent =
             "Rp " + (window.formatNumber?.(data.tarif || 0) || "0") + "/kWh";
 
-    // Calculate monthly projection
+    // Perhitungan Estimasi Biaya Bulanan
     const monthlyProjection = (data.energi_harian || 0) * 30;
     const monthlyCost = monthlyProjection * (data.tarif || 0);
     if (elements.biayaBulanan)
@@ -70,7 +67,6 @@ export function updateDisplayValues(data) {
             window.formatNumber?.(monthlyProjection) || "0"
         } kWh`;
 
-    // Update global variables
     window.currentMode = data.mode || "otomatis";
     window.currentRelayStatus = data.relay || false;
     window.currentSettings.batas_kwh = data.batas_kwh || 5.0;
@@ -83,12 +79,10 @@ export function updateProgressBars(data) {
     const arus = parseFloat(data.arus || 0);
     const watt = parseFloat(data.watt || 0);
 
-    // Update voltage bar
     const voltagePercent = Math.min((tegangan / 240) * 100, 100);
     const voltageBar = document.getElementById("voltage-bar");
     if (voltageBar) voltageBar.style.width = `${voltagePercent}%`;
 
-    // Update current bar
     const maxCurrent = window.currentSettings?.daya_terpasang / 220 || 5.9;
     const currentPercent = Math.min((arus / maxCurrent) * 100, 100);
     const currentBar = document.getElementById("current-bar");
@@ -105,9 +99,6 @@ export function updateProgressBars(data) {
 
 export function checkLimitWarning(energiHarian, batasKwh, mode) {
     const percentage = (energiHarian / batasKwh) * 100;
-
-    console.log(`📊 Check limit: ${energiHarian}kWh / ${batasKwh}kWh = ${percentage}%`);
-
     // Update progress bar
     const progressBar = document.getElementById("konsumsi-progress");
     const persentaseText = document.getElementById("persentase-text");
@@ -117,7 +108,6 @@ export function checkLimitWarning(energiHarian, batasKwh, mode) {
     if (progressBar) {
         progressBar.style.width = `${Math.min(percentage, 100)}%`;
 
-        // Change color based on percentage
         if (percentage >= 100) {
             progressBar.className =
                 "h-full bg-gradient-to-r from-red-500 to-red-600 transition-all duration-500";
@@ -154,7 +144,6 @@ export function checkLimitWarning(energiHarian, batasKwh, mode) {
     if (persentaseKonsumsi)
         persentaseKonsumsi.textContent = `${Math.round(percentage)}%`;
 
-    // SHOW NOTIFICATIONS
     const now = Date.now();
     
     // Gunakan window.notificationLastTime jika ada, atau buat baru
@@ -167,7 +156,6 @@ export function checkLimitWarning(energiHarian, batasKwh, mode) {
         if (percentage >= 100) {
             // Melebihi 100% - notifikasi urgent
             if (now - window.notificationLastTime > 30000) { // 30 detik cooldown
-                console.log("🔴 Melebihi batas! Calling notification...");
                 
                 if (window.showNotification) {
                     window.showNotification(
@@ -177,8 +165,6 @@ export function checkLimitWarning(energiHarian, batasKwh, mode) {
                     );
                     window.notificationLastTime = now;
                 } else {
-                    console.error("❌ window.showNotification is not available!");
-                    // Fallback ke console.log atau alert
                     alert(`🚨 KONSUMSI MELEBIHI BATAS! ${energiHarian} kWh dari ${batasKwh} kWh`);
                 }
             }
@@ -198,7 +184,6 @@ export function checkLimitWarning(energiHarian, batasKwh, mode) {
     }
 }
 
-// Function lain yang mungkin perlu di-export
 export function updateModeDisplay() {
     const modeDisplay = document.getElementById("mode-display");
     if (!modeDisplay) return;
@@ -261,6 +246,3 @@ export function updateRelayDisplay(status) {
         deviceToggle.disabled = false;
     }
 }
-
-// HAPUS INI - JANGAN ADA DUPLIKASI WINDOW.CHECKLIMITWARNING DI SINI
-// window.checkLimitWarning = function(...) { ... } // HAPUS BARIS INI

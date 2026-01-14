@@ -1,19 +1,11 @@
-// resources/js/modules/notifications.js
 
 let lastNotificationTime = 0;
-const NOTIFICATION_COOLDOWN = 30000;
-
-export function initNotifications() {
-    // Inisialisasi system notifikasi
-    console.log('🔔 Notification system initialized');
-}
-
 export function showNotification(message, type = 'info', duration = 5000) {
     const now = Date.now();
-    if (now - lastNotificationTime < 1000) return;
+    if (now - lastNotificationTime < 500) return;
     
     const notificationId = 'notif-' + Date.now();
-    const notification = document.createElement('div');
+    const notification = document.createElements('div');
     notification.id = notificationId;
     notification.className = `animate-slideInRight p-4 rounded-lg shadow-lg border-l-4 ${
         type === 'warning' ? 'bg-yellow-500/20 border-yellow-500' :

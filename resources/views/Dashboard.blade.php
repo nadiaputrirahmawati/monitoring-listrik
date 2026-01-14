@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pemantauan Energi IoT</title>
     
-    <!-- CSRF Token untuk Laravel -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -26,11 +25,8 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <!-- Mode Display -->
                     <div id="mode-display" class="px-4 py-2 rounded-lg flex items-center gap-2">
-                        <!-- Will be filled by JavaScript -->
                     </div>
-                    <!-- Tombol Pengaturan -->
                     <button id="btn-settings" class="bg-slate-700 hover:bg-slate-600 p-2 rounded-lg transition-all">
                         <i class="fas fa-cog text-xl"></i>
                     </button>
@@ -43,13 +39,9 @@
         </div>
     </header>
 
-    <!-- Modal Pengaturan -->
 
     @include('Setting')
-
-    <!-- Notifikasi Area -->
     <div id="notification-area" class="fixed top-24 right-4 z-40 space-y-3 max-w-sm">
-        <!-- Notifikasi akan muncul di sini -->
     </div>
 
     <main class="container mx-auto px-4 py-6">
@@ -110,7 +102,6 @@
             </div>
         </div>
 
-        <!-- Energy & Cost Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <!-- Total Energi -->
             <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
@@ -135,7 +126,6 @@
                         <span id="persentase-konsumsi" class="text-white font-medium">0%</span>
                     </div>
                 </div>
-                <!-- Progress Bar -->
                 <div class="mt-4">
                     <div class="flex justify-between text-sm text-slate-400 mb-2">
                         <span>0%</span>
